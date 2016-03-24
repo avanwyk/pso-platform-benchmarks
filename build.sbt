@@ -1,16 +1,63 @@
-name := "flock"
+val breezeVersion     = "0.12"
+val scalaCheckVersion = "1.12.5"
+val scalaTestVersion  = "2.2.6"
 
-version := "1.0"
-
-scalaVersion := "2.11.8"
-
-libraryDependencies ++= Seq(
-  "org.scalanlp" %% "breeze" % "0.12",
-  "org.scalanlp" %% "breeze-natives" % "0.12"
+lazy val buildSettings = Seq(
+  organization := "com.avanwyk.flock",
+  scalaVersion := "2.11.8"
 )
 
-val testDependencies = Seq(
-  "org.scalatest" %% "scalatest" % "2.2.6" % "test",
-  "org.scalacheck" %% "scalacheck" % "1.12.5" % "test"
+lazy val commonSettings = Seq(
+  scalacOptions ++= Seq(
+    "-deprecation",
+    "-encoding", "UTF-8",
+    "-feature",
+    "-unchecked",
+    "-Xfatal-warnings",
+    "-Xlint",
+    "-Yno-adapted-args",
+    "-Ywarn-dead-code",
+    "-Ywarn-numeric-widen",
+    "-Ywarn-value-discard",
+    "-Xfuture"
+  ),
+  resolvers ++= Seq(
+    Resolver.sonatypeRepo("releases")
+  )
 )
-libraryDependencies ++= testDependencies
+
+lazy val flockSettings = buildSettings ++ commonSettings
+
+lazy val flock = project.in(file("."))
+  .settings(flockSettings)
+  .aggregate(math, core, tests)
+  .dependsOn(math, core, tests)
+
+lazy val math = project
+  .settings(moduleName := "flock-math")
+  .settings(flockSettings)
+  .settings(Seq(
+    libraryDependencies ++= Seq(
+      "org.scalanlp" %% "breeze" % breezeVersion,
+      "org.scalanlp" %% "breeze-natives" % breezeVersion
+    )
+  ))
+
+lazy val core = project
+  .dependsOn(math)
+  .settings(moduleName := "flock-core")
+  .settings(flockSettings)
+  .settings(Seq(
+
+  ))
+
+lazy val tests = project
+  .dependsOn(math, core)
+  .settings(moduleName := "flock-tests")
+  .settings(flockSettings)
+  .settings(Seq(
+    libraryDependencies ++= Seq(
+      "org.scalatest"  %% "scalatest"  % scalaTestVersion  % "test",
+      "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test"
+    )
+  ))
