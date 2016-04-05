@@ -1,6 +1,6 @@
-val breezeVersion     = "0.12"
+val breezeVersion = "0.12"
 val scalaCheckVersion = "1.12.5"
-val scalaTestVersion  = "2.2.6"
+val scalaTestVersion = "2.2.6"
 
 lazy val buildSettings = Seq(
   organization := "com.avanwyk.flock",
@@ -57,7 +57,6 @@ lazy val tests = project
   .settings(flockSettings)
   .settings(Seq(
     libraryDependencies ++= Seq(
-      "org.scalatest"  %% "scalatest"  % scalaTestVersion  % "test",
       "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test"
     )
   ))
