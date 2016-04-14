@@ -1,14 +1,14 @@
 cc_test(
-    name = "cwarm",
+    name = "cswarm",
     srcs = glob(
         ["cc/*.cc"]
     ),
     copts = [
         "-Iexternal/gtest/include",
-        "-Icwarm/cc"
+        "-Icswarm/cc"
     ],
     deps = [
         "@gtest//:main",
-        "//cwarm:core"
+        "//cswarm:core"
     ]
 )

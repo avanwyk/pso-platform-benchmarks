@@ -4,7 +4,7 @@ cc_library(
     srcs = glob(
         ["cc/*.cc"]
     ),
-    copts = ["-Icwarm/cc"],
+    copts = ["-Icswarm/cc"],
     deps = [
         "@eigen//:main"
     ],
