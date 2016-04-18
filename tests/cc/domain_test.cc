@@ -20,9 +20,9 @@ limitations under the License.
 TEST(DomainTest, should_have_values) {
   auto lower = -5.0;
   auto upper = 5.0;
-  auto dim = 30;
-  auto d = Domain(lower, upper, dim);
-  EXPECT_EQ(lower, d.get_lower());
-  EXPECT_EQ(upper, d.get_upper());
-  EXPECT_EQ(dim, d.get_dim());
+  auto size = 30;
+  auto d = Domain(lower, upper, size);
+  EXPECT_EQ(lower, d.lower);
+  EXPECT_EQ(upper, d.upper);
+  EXPECT_EQ(size, d.size);
 }

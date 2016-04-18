@@ -18,11 +18,9 @@ limitations under the License.
 
 using Eigen::VectorXd;
 
-Random::Random(int64_t seed): generator(seed) { }
-
 VectorXd Random::random_vector(int size) {
   return VectorXd::NullaryExpr(size, [this] (VectorXd::Index) {
-    return uniform(generator);
+    return uniform_(generator_);
   });
 }
 
@@ -30,12 +28,10 @@ VectorXd Random::random_vector(int size, double lower, double upper) {
   std::uniform_real_distribution<> distribution(lower, upper);
   
   return VectorXd::NullaryExpr(size, [this, &distribution] (VectorXd::Index) {
-    return distribution(generator);
+    return distribution(generator_);
   });
 }
 
 VectorXd Random::random_vector(const Domain& domain) {
-  return random_vector(domain.get_dim(),
-                       domain.get_lower(),
-                       domain.get_upper());
+  return random_vector(domain.size, domain.lower, domain.upper);
 }

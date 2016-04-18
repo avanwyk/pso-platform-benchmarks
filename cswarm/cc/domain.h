@@ -17,20 +17,15 @@ limitations under the License.
 #ifndef CSWARM_CC_DOMAIN_H_
 #define CSWARM_CC_DOMAIN_H_
 
-class Domain {
- public:
-  Domain(double, double, int);
-  ~Domain() { }
+struct Domain {
+  Domain(const double lower, const double upper, const int size):
+    lower(lower), upper(upper), size(size) { }
   
-  double get_lower() const { return lower; }
-  double get_upper() const { return upper; }
-  int get_dim() const { return dim; }
-  int get_size() const { return dim; }
+  int dimensions() const { return size; }
   
- private:
-  double lower;
-  double upper;
-  int dim;
+  const double lower;
+  const double upper;
+  const int size;
 };
 
 #endif  // CSWARM_CC_DOMAIN_H_

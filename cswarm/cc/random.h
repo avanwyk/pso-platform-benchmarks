@@ -20,19 +20,23 @@ limitations under the License.
 #include <stdint.h>
 #include <random>
 #include <Eigen/Core>
+
 #include "domain.h"
 
 class Random {
  public:
-  explicit Random(int64_t);
+  explicit Random(int64_t seed): generator_(seed) { }
   ~Random() {}
+  
   Eigen::VectorXd random_vector(int size);
   Eigen::VectorXd random_vector(int size, double lower, double upper);
   Eigen::VectorXd random_vector(const Domain&);
 
  private:
-  std::mt19937_64 generator;
-  std::uniform_real_distribution<> uniform;
+  Random(const Random& other) { }
+ 
+  std::mt19937_64 generator_;
+  std::uniform_real_distribution<> uniform_;
 };
 
 #endif  // CSWARM_CC_RANDOM_H_
