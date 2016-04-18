@@ -7,6 +7,7 @@ cc_test(
         "-Iexternal/gtest/include",
         "-Icswarm/cc"
     ],
+    linkopts = ["-lm"],
     deps = [
         "@gtest//:main",
         "//cswarm:core"
