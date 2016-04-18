@@ -1,5 +1,5 @@
 # Cswarm
-C++ based Particle Swarm Optimization
+C++ based Particle Swarm Optimization. This library is still in the early development phases. Please check back soon.
 
 ### Build instructions
 The project is built using [Bazel](http://bazel.io/).
