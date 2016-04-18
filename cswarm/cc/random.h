@@ -26,9 +26,9 @@ class Random {
  public:
   explicit Random(int64_t);
   ~Random() {}
-  Eigen::VectorXd randomVector(int size);
-  Eigen::VectorXd randomVector(int size, double lower, double upper);
-  Eigen::VectorXd randomVector(const Domain&);
+  Eigen::VectorXd random_vector(int size);
+  Eigen::VectorXd random_vector(int size, double lower, double upper);
+  Eigen::VectorXd random_vector(const Domain&);
 
  private:
   std::mt19937_64 generator;

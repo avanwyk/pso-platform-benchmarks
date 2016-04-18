@@ -14,19 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include "Random.h"
+#include "random.h"
 
 using Eigen::VectorXd;
 
 Random::Random(int64_t seed): generator(seed) { }
 
-VectorXd Random::randomVector(int size) {
+VectorXd Random::random_vector(int size) {
   return VectorXd::NullaryExpr(size, [this] (VectorXd::Index) {
     return uniform(generator);
   });
 }
 
-VectorXd Random::randomVector(int size, double lower, double upper) {
+VectorXd Random::random_vector(int size, double lower, double upper) {
   std::uniform_real_distribution<> distribution(lower, upper);
   
   return VectorXd::NullaryExpr(size, [this, &distribution] (VectorXd::Index) {
@@ -34,6 +34,6 @@ VectorXd Random::randomVector(int size, double lower, double upper) {
   });
 }
 
-VectorXd Random::randomVector(const Domain& domain) {
-  return randomVector(domain.getDim(), domain.getLower(), domain.getUpper());
+VectorXd Random::random_vector(const Domain& domain) {
+  return random_vector(domain.getDim(), domain.getLower(), domain.getUpper());
 }

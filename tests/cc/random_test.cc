@@ -15,21 +15,21 @@ limitations under the License.
 */
 
 #include "gtest/gtest.h"
-#include "Random.h"
+#include "random.h"
 
-TEST(RandomTest, shouldCreateVectorWithSize) {
+TEST(RandomTest, should_create_vector_with_size) {
   Random random(1L);
   int size = 10;
-  auto v = random.randomVector(size);
+  auto v = random.random_vector(size);
   EXPECT_EQ(size, v.size());
 }
 
-TEST(RandomTest, shouldCreateVectorWithSizeInBounds) {
+TEST(RandomTest, should_create_vector_with_size_in_bounds) {
   Random random(1L);
   auto size = 100000;
   auto lower = -5.0;
   auto upper = 5.0;
-  auto v = random.randomVector(size, lower, upper);
+  auto v = random.random_vector(size, lower, upper);
   EXPECT_EQ(size, v.size());
   for (auto i = 0; i < v.size(); ++i) {
     EXPECT_LT(v[i], upper);
@@ -37,13 +37,13 @@ TEST(RandomTest, shouldCreateVectorWithSizeInBounds) {
   }
 }
 
-TEST(RandomTest, shouldCreateVectorInDomain) {
+TEST(RandomTest, should_create_vector_in_domain) {
   Random random(1L);
   auto size = 100000;
   auto lower = -5.0;
   auto upper = 5.0;
   auto domain = Domain(lower, upper, size);
-  auto v = random.randomVector(domain.getDim());
+  auto v = random.random_vector(domain.getDim());
   EXPECT_EQ(size, v.size());
   for (auto i = 0; i < v.size(); ++i) {
     EXPECT_LT(v[i], domain.getUpper());
