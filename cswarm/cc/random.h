@@ -20,7 +20,7 @@ limitations under the License.
 #include <stdint.h>
 #include <random>
 #include <Eigen/Core>
-#include "Domain.h"
+#include "domain.h"
 
 class Random {
  public:

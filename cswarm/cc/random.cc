@@ -35,5 +35,7 @@ VectorXd Random::random_vector(int size, double lower, double upper) {
 }
 
 VectorXd Random::random_vector(const Domain& domain) {
-  return random_vector(domain.getDim(), domain.getLower(), domain.getUpper());
+  return random_vector(domain.get_dim(),
+                       domain.get_lower(),
+                       domain.get_upper());
 }

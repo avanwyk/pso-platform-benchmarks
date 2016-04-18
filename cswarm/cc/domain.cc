@@ -14,26 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include "Domain.h"
+#include "domain.h"
 
-Domain::Domain(double l, double u, int d) {
-  lower = l;
-  upper = u;
-  dim = d;
-}
-  
-double Domain::getLower() const {
-  return lower;
-}
-
-double Domain::getUpper() const {
-  return upper;
-}
-
-int Domain::getDim() const {
-  return dim;
-}
-
-int Domain::getSize() const {
-  return dim;
+Domain::Domain(double lower, double upper, int dim) {
+  this->lower = lower;
+  this->upper = upper;
+  this->dim = dim;
 }

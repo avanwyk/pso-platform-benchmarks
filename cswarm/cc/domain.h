@@ -22,10 +22,10 @@ class Domain {
   Domain(double, double, int);
   ~Domain() { }
   
-  double getLower() const;
-  double getUpper() const;
-  int getDim() const;
-  int getSize() const;
+  double get_lower() const { return lower; }
+  double get_upper() const { return upper; }
+  int get_dim() const { return dim; }
+  int get_size() const { return dim; }
   
  private:
   double lower;

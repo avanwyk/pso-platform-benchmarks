@@ -14,15 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#include "domain.h"
 #include "gtest/gtest.h"
-#include "Domain.h"
 
-TEST(DomainTest, shouldHaveValues) {
+TEST(DomainTest, should_have_values) {
   auto lower = -5.0;
   auto upper = 5.0;
   auto dim = 30;
   auto d = Domain(lower, upper, dim);
-  EXPECT_EQ(lower, d.getLower());
-  EXPECT_EQ(upper, d.getUpper());
-  EXPECT_EQ(dim, d.getDim());
+  EXPECT_EQ(lower, d.get_lower());
+  EXPECT_EQ(upper, d.get_upper());
+  EXPECT_EQ(dim, d.get_dim());
 }

@@ -43,10 +43,10 @@ TEST(RandomTest, should_create_vector_in_domain) {
   auto lower = -5.0;
   auto upper = 5.0;
   auto domain = Domain(lower, upper, size);
-  auto v = random.random_vector(domain.getDim());
+  auto v = random.random_vector(domain.get_size());
   EXPECT_EQ(size, v.size());
   for (auto i = 0; i < v.size(); ++i) {
-    EXPECT_LT(v[i], domain.getUpper());
-    EXPECT_GT(v[i], domain.getLower());
+    EXPECT_LT(v[i], domain.get_upper());
+    EXPECT_GT(v[i], domain.get_lower());
   }
 }
