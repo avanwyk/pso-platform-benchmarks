@@ -26,7 +26,7 @@ TEST(RandomTest, shouldCreateVectorWithSize) {
 
 TEST(RandomTest, shouldCreateVectorWithSizeInBounds) {
   Random random(1L);
-  auto size = 1000000;
+  auto size = 100000;
   auto lower = -5.0;
   auto upper = 5.0;
   auto v = random.randomVector(size, lower, upper);
@@ -34,5 +34,19 @@ TEST(RandomTest, shouldCreateVectorWithSizeInBounds) {
   for (auto i = 0; i < v.size(); ++i) {
     EXPECT_LT(v[i], upper);
     EXPECT_GT(v[i], lower);
+  }
+}
+
+TEST(RandomTest, shouldCreateVectorInDomain) {
+  Random random(1L);
+  auto size = 100000;
+  auto lower = -5.0;
+  auto upper = 5.0;
+  auto domain = Domain(lower, upper, size);
+  auto v = random.randomVector(domain.getDim());
+  EXPECT_EQ(size, v.size());
+  for (auto i = 0; i < v.size(); ++i) {
+    EXPECT_LT(v[i], domain.getUpper());
+    EXPECT_GT(v[i], domain.getLower());
   }
 }

@@ -14,25 +14,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef CSWARM_CC_RANDOM_H_
-#define CSWARM_CC_RANDOM_H_
-
-#include <stdint.h>
-#include <random>
-#include <Eigen/Core>
 #include "Domain.h"
 
-class Random {
- public:
-  explicit Random(int64_t);
-  ~Random() {}
-  Eigen::VectorXd randomVector(int size);
-  Eigen::VectorXd randomVector(int size, double lower, double upper);
-  Eigen::VectorXd randomVector(const Domain&);
+Domain::Domain(double l, double u, int d) {
+  lower = l;
+  upper = u;
+  dim = d;
+}
+  
+double Domain::getLower() const {
+  return lower;
+}
 
- private:
-  std::mt19937_64 generator;
-  std::uniform_real_distribution<> uniform;
-};
+double Domain::getUpper() const {
+  return upper;
+}
 
-#endif  // CSWARM_CC_RANDOM_H_
+int Domain::getDim() const {
+  return dim;
+}
+
+int Domain::getSize() const {
+  return dim;
+}
