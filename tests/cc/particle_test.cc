@@ -20,21 +20,21 @@ limitations under the License.
 #include "particle.h"
 #include "random.h"
 
-using Eigen::VectorXd;
+using Eigen::ArrayXd;
 
 TEST(ParticleTest, should_have_values) {
   Random rng(1L);
   auto domain = Domain(-5.0, 5.0, 30);
   
   auto position = rng.random_vector(domain);
-  auto velocity = VectorXd::Zero(domain.size);
+  auto velocity = ArrayXd::Zero(domain.size);
   auto fitness = std::numeric_limits<double>::max();
   
   auto p = Particle(position, velocity, fitness);
   
-  EXPECT_EQ(position, p.position);
-  EXPECT_EQ(velocity, p.velocity);
+  ASSERT_TRUE(position.isApprox(p.position));
+  ASSERT_TRUE(velocity.isApprox(p.velocity));
+  ASSERT_TRUE(position.isApprox(p.pbest_position));
   EXPECT_EQ(fitness, p.fitness);
   EXPECT_EQ(fitness, p.pbest_fitness);
-  EXPECT_EQ(position, p.pbest_position);
 }

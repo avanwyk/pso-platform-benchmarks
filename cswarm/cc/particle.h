@@ -19,16 +19,16 @@ limitations under the License.
 
 #include <Eigen/Core>
 
-using Eigen::VectorXd;
+using Eigen::ArrayXd;
 
 struct Particle {
-  Particle(VectorXd position, VectorXd velocity, double fitness):
+  Particle(ArrayXd position, ArrayXd velocity, double fitness):
     position(position), pbest_position(position), velocity(velocity),
     fitness(fitness), pbest_fitness(fitness) { }
   
-  VectorXd position;
-  VectorXd pbest_position;
-  VectorXd velocity;
+  ArrayXd position;
+  ArrayXd pbest_position;
+  ArrayXd velocity;
   double fitness;
   double pbest_fitness;
 };

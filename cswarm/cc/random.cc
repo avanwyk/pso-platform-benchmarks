@@ -16,22 +16,22 @@ limitations under the License.
 
 #include "random.h"
 
-using Eigen::VectorXd;
+using Eigen::ArrayXd;
 
-VectorXd Random::random_vector(int size) {
-  return VectorXd::NullaryExpr(size, [this] (VectorXd::Index) {
+ArrayXd Random::random_vector(int size) {
+  return ArrayXd::NullaryExpr(size, [this] (ArrayXd::Index) {
     return uniform_(generator_);
   });
 }
 
-VectorXd Random::random_vector(int size, double lower, double upper) {
+ArrayXd Random::random_vector(int size, double lower, double upper) {
   std::uniform_real_distribution<> distribution(lower, upper);
   
-  return VectorXd::NullaryExpr(size, [this, &distribution] (VectorXd::Index) {
+  return ArrayXd::NullaryExpr(size, [this, &distribution] (ArrayXd::Index) {
     return distribution(generator_);
   });
 }
 
-VectorXd Random::random_vector(const Domain& domain) {
+ArrayXd Random::random_vector(const Domain& domain) {
   return random_vector(domain.size, domain.lower, domain.upper);
 }

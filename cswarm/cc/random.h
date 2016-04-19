@@ -28,9 +28,9 @@ class Random {
   explicit Random(int64_t seed): generator_(seed) { }
   ~Random() {}
   
-  Eigen::VectorXd random_vector(int size);
-  Eigen::VectorXd random_vector(int size, double lower, double upper);
-  Eigen::VectorXd random_vector(const Domain&);
+  Eigen::ArrayXd random_vector(int size);
+  Eigen::ArrayXd random_vector(int size, double lower, double upper);
+  Eigen::ArrayXd random_vector(const Domain&);
 
  private:
   Random(const Random& other) { }
