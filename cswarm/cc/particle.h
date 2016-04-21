@@ -22,9 +22,11 @@ limitations under the License.
 using Eigen::ArrayXd;
 
 struct Particle {
-  Particle(ArrayXd position, ArrayXd velocity, double fitness):
-    position(position), pbest_position(position), velocity(velocity),
-    fitness(fitness), pbest_fitness(fitness) { }
+  Particle(ArrayXd position, ArrayXd velocity, double fitness)
+      : position(position),
+        pbest_position(position),
+        velocity(velocity),
+        fitness(fitness), pbest_fitness(fitness) {}
   
   ArrayXd position;
   ArrayXd pbest_position;

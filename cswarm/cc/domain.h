@@ -18,8 +18,8 @@ limitations under the License.
 #define CSWARM_CC_DOMAIN_H_
 
 struct Domain {
-  Domain(const double lower, const double upper, const int size):
-    lower(lower), upper(upper), size(size) { }
+  Domain(const double lower, const double upper, const int size)
+      : lower(lower), upper(upper), size(size) {}
   
   int dimensions() const { return size; }
   

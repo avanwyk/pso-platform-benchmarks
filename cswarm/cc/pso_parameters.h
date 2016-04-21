@@ -14,29 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef CSWARM_CC_RANDOM_H_
-#define CSWARM_CC_RANDOM_H_
+#ifndef CSWARM_CC_PSO_PARAMETERS_H_
+#define CSWARM_CC_PSO_PARAMETERS_H_
 
-#include <stdint.h>
-#include <random>
-#include <Eigen/Core>
-
-#include "domain.h"
-
-class Random {
- public:
-  explicit Random(int64_t seed): generator_(seed) {}
-  ~Random() {}
+struct PSOParameters {
+  PSOParameters(const double w, const double c_1, const double c_2,
+                const double v_max): w(w), c_1(c_1), c_2(c_2), v_max(v_max) {}
   
-  Eigen::ArrayXd random_vector(int size);
-  Eigen::ArrayXd random_vector(int size, double lower, double upper);
-  Eigen::ArrayXd random_vector(const Domain&);
-
- private:
-  Random(const Random& other) { }
- 
-  std::mt19937_64 generator_;
-  std::uniform_real_distribution<> uniform_;
+  const double w;
+  const double c_1;
+  const double c_2;
+  const double v_max;
 };
 
-#endif  // CSWARM_CC_RANDOM_H_
+#endif  // CSWARM_CC_PSO_PARAMETERS_H_
