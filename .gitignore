@@ -25,6 +25,7 @@
 # Executables
 *.exe
 *.out
+*.out*
 *.app
 
 # Bazel

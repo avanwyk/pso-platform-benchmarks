@@ -33,11 +33,11 @@ using std::vector;
 namespace cswarm {
 namespace pso {
   
-  inline static ArrayXd stdPosition(const ArrayXd& pos, const ArrayXd& vel) {
+  inline static ArrayXd std_position(const ArrayXd& pos, const ArrayXd& vel) {
     return pos + vel;
   }
   
-  inline static ArrayXd stdVelocity(const Particle& particle,
+  inline static ArrayXd std_velocity(const Particle& particle,
                               double w, double c_1, double c_2,
                               const ArrayXd& cognitive, const ArrayXd& social,
                               shared_ptr<Random> rng) {
@@ -52,19 +52,22 @@ namespace pso {
     ArrayXd result = velocity;
     double* data = result.data();
     for (int i = 0; i < velocity.size(); ++i) {
-      if (abs(data[i]) > v_max) {
-        result[i] = copysign(v_max, data[i]);
+      double& d = data[i];
+      if (d > v_max) {
+        d = v_max;
+      } else if (d < -v_max) {
+        d = -v_max;
       }
     }
     return result;
   }
   
-  inline static ArrayXd stdVelocityWithVmax(const Particle& particle,
+  inline static ArrayXd std_velocity_with_v_max(const Particle& particle,
                               double w, double c_1, double c_2, double v_max,
                               const ArrayXd& cognitive, const ArrayXd& social,
                               shared_ptr<Random> rng) {
     return clamp_velocity(
-      stdVelocity(particle, w, c_1, c_2, cognitive, social, rng), v_max);
+      std_velocity(particle, w, c_1, c_2, cognitive, social, rng), v_max);
   }
   
   inline static ArrayXd uniform_position(const Domain& domain,

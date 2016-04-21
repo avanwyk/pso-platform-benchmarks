@@ -23,8 +23,8 @@ using std::copy;
 using std::cout;
 using std::endl;
 using cswarm::pso::gbest;
-using cswarm::pso::stdPosition;
-using cswarm::pso::stdVelocityWithVmax;
+using cswarm::pso::std_position;
+using cswarm::pso::std_velocity_with_v_max;
 using cswarm::pso::initialize_swarm;
 using cswarm::pso::max_fitness;
 using cswarm::pso::stationary_velocity;
@@ -40,12 +40,12 @@ const Result PSO::optimize(const int iterations) {
   for (int iteration = 0; iteration < iterations; ++iteration) {
     for (uint i = 0; i < swarm.size(); ++i) {
       Particle* particle = &swarm[i];
-      particle->velocity = stdVelocityWithVmax(*particle,
+      particle->velocity = std_velocity_with_v_max(*particle,
                                  parameters_.w, parameters_.c_1,
                                  parameters_.c_2, parameters_.v_max,
                                  particle->pbest_position,
                                  gbest(swarm).pbest_position, rng_);
-      particle->position = stdPosition(particle->position, particle->velocity);
+      particle->position = std_position(particle->position, particle->velocity);
     }
     
     for (uint i = 0; i < swarm.size(); ++i) {

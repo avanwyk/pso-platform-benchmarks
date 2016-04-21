@@ -31,7 +31,7 @@ double sphericalF(const ArrayXd& solution) {
 
 int main() {
   auto rng = std::make_shared<Random>(15632435212L);
-  auto d = Domain(-5.0, 5.0, 1000);
+  auto d = Domain(-5.0, 5.0, 3000);
   auto p = PSOParameters(0.72, 1.4, 1.4, 1.0);
   auto pso = PSO(25, d, p, sphericalF, rng);
   

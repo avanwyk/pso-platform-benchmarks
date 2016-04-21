@@ -22,8 +22,8 @@ limitations under the License.
 
 using std::shared_ptr;
 using std::make_shared;
-using cswarm::pso::stdPosition;
-using cswarm::pso::stdVelocity;
+using cswarm::pso::std_position;
+using cswarm::pso::std_velocity;
 using cswarm::pso::initialize_swarm;
 using cswarm::pso::max_fitness;
 using cswarm::pso::stationary_velocity;
@@ -35,7 +35,7 @@ TEST(PSOFunctionsTest, std_position) {
   auto size = 3000;
   auto pos = rng.random_vector(size);
   auto vel = rng.random_vector(size);
-  auto res = stdPosition(pos, vel);
+  auto res = std_position(pos, vel);
   for (int i = 0; i < size; ++i) {
     EXPECT_EQ(pos(i) + vel(i), res(i));
   }
@@ -53,7 +53,7 @@ TEST(PSOFunctionsTest, std_velocity) {
   auto vel = rng->random_vector(size, -0.1, 0.1);
   auto particle = Particle(pos, vel, 0.0);
   
-  auto updated_vel = stdVelocity(particle, w, c_1, c_2, cog, soc, rng);
+  auto updated_vel = std_velocity(particle, w, c_1, c_2, cog, soc, rng);
   EXPECT_EQ(updated_vel.size(), vel.size());
 }
 
