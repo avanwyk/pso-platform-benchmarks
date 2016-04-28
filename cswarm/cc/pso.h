@@ -17,9 +17,11 @@ limitations under the License.
 #ifndef CSWARM_CC_PSO_H_
 #define CSWARM_CC_PSO_H_
 
-#include <Eigen/Core>
 #include <memory>
 #include <vector>
+
+#include <Eigen/Core>
+
 #include "domain.h"
 #include "particle.h"
 #include "pso_functions.h"

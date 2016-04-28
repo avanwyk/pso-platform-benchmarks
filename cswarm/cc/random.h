@@ -17,8 +17,9 @@ limitations under the License.
 #ifndef CSWARM_CC_RANDOM_H_
 #define CSWARM_CC_RANDOM_H_
 
-#include <stdint.h>
 #include <random>
+#include <stdint.h>
+
 #include <Eigen/Core>
 
 #include "domain.h"

@@ -17,9 +17,11 @@ limitations under the License.
 #ifndef CSWARM_CC_PSO_FUNCTIONS_H_
 #define CSWARM_CC_PSO_FUNCTIONS_H_
 
-#include <Eigen/Core>
 #include <cmath>
 #include <memory>
+
+#include <Eigen/Core>
+
 #include "particle.h"
 #include "pso_functions.h"
 #include "pso_parameters.h"
@@ -101,7 +103,8 @@ namespace pso {
     return swarm;
   }
   
-  inline static const Particle& gbest(const vector<Particle>& swarm) {
+  inline static const Particle& gbest(const vector<Particle>& swarm,
+                                      const int particle_idx) {
     auto gbest = 0;
     for (uint i = 1; i < swarm.size(); ++i) {
       if (swarm[i].pbest_fitness < swarm[gbest].pbest_fitness) {
@@ -109,6 +112,39 @@ namespace pso {
       }
     }
     return swarm[gbest];
+  }
+  
+  inline static const Particle& gbest(const vector<Particle>& swarm) {
+    return gbest(swarm, 0);
+  }
+  
+  inline static const Particle& particle_n(const vector<Particle>& swarm,
+                                           const int n) {
+    int swarm_size = swarm.size();
+    if (n < 0) { 
+      return swarm[n + swarm_size];
+    } else if (n >= swarm_size) {
+      return swarm[n - swarm_size];
+    }
+    return swarm[n];
+  }
+  
+  template<int n_size>
+  inline static const Particle& lbest(const vector<Particle>& swarm,
+                                      const int particle_idx) {
+    auto div = n_size / 2 + 1;
+    auto lower = particle_idx - div;
+    auto upper = particle_idx + (n_size - div);
+    
+    auto lbest = lower;
+    for (int i = lower + 1; i < upper; ++i) {
+      auto particle = particle_n(swarm, i);
+      auto lbest_particle = particle_n(swarm, lbest);
+      if (particle.pbest_fitness < lbest_particle.pbest_fitness) {
+        lbest = i;
+      }
+    }
+    return particle_n(swarm, lbest);
   }
   
 };  // namespace pso

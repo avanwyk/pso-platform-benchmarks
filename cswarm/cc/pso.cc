@@ -16,18 +16,17 @@ limitations under the License.
 
 #include "pso.h"
 
+using std::copy;
 using std::function;
 using std::shared_ptr;
-using std::copy;
 
 using cswarm::pso::gbest;
-using cswarm::pso::std_position;
-using cswarm::pso::std_velocity_with_v_max;
 using cswarm::pso::initialize_swarm;
 using cswarm::pso::max_fitness;
 using cswarm::pso::stationary_velocity;
+using cswarm::pso::std_position;
+using cswarm::pso::std_velocity_with_v_max;
 using cswarm::pso::uniform_position;
-using cswarm::pso::clamp_velocity;
 
 const Result PSO::optimize(const int iterations) {
   auto swarm = initialize_swarm(swarm_size_, domain_,
@@ -35,17 +34,20 @@ const Result PSO::optimize(const int iterations) {
                                 max_fitness, rng_);
   
   for (int iteration = 0; iteration < iterations; ++iteration) {
-    for (auto& particle : swarm) {
+    for (int i = 0; i < swarm_size_; ++i) {
+      Particle& particle = swarm[i];
+      auto nbest = gbest(swarm, i);
       particle.velocity = std_velocity_with_v_max(particle,
                                  parameters_.w, parameters_.c_1,
                                  parameters_.c_2, parameters_.v_max,
                                  particle.pbest_position,
-                                 gbest(swarm).pbest_position, rng_);
+                                 nbest.pbest_position, rng_);
                                  
       particle.position = std_position(particle.position, particle.velocity);
     }
     
-    for (auto& particle : swarm) {
+    for (int i = 0; i < swarm_size_; ++i) {
+      Particle& particle = swarm[i];
       auto fitness = fitness_function_(particle.position);
       particle.fitness = fitness;
       
