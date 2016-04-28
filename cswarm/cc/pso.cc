@@ -30,7 +30,6 @@ using cswarm::pso::max_fitness;
 using cswarm::pso::stationary_velocity;
 using cswarm::pso::uniform_position;
 using cswarm::pso::clamp_velocity;
-using cswarm::pso::update_fitness;
 
 const Result PSO::optimize(const int iterations) {
   auto swarm = initialize_swarm(swarm_size_, domain_,
@@ -38,20 +37,22 @@ const Result PSO::optimize(const int iterations) {
                                 max_fitness, rng_);
   
   for (int iteration = 0; iteration < iterations; ++iteration) {
-    for (uint i = 0; i < swarm.size(); ++i) {
-      Particle* particle = &swarm[i];
-      particle->velocity = std_velocity_with_v_max(*particle,
+    for (auto& particle : swarm) {
+      particle.velocity = std_velocity_with_v_max(particle,
                                  parameters_.w, parameters_.c_1,
                                  parameters_.c_2, parameters_.v_max,
-                                 particle->pbest_position,
+                                 particle.pbest_position,
                                  gbest(swarm).pbest_position, rng_);
-      particle->position = std_position(particle->position, particle->velocity);
+      particle.position = std_position(particle.position, particle.velocity);
     }
     
-    for (uint i = 0; i < swarm.size(); ++i) {
-      auto particle = &swarm[i];
-      auto fitness = fitness_function_(particle->position);
-      update_fitness(particle, fitness);
+    for (auto& particle : swarm) {
+      auto fitness = fitness_function_(particle.position);
+      particle.fitness = fitness;
+      if (fitness < particle.pbest_fitness) {
+        particle.pbest_fitness = fitness;
+        particle.pbest_position = particle.position;
+      }
     }
   }
   

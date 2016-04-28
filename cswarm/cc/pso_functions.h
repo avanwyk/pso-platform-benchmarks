@@ -83,15 +83,6 @@ namespace pso {
     return std::numeric_limits<double>::max();
   }
   
-  inline static void update_fitness(Particle* particle,
-    double updated_fitness) {
-    particle->fitness = updated_fitness;
-    if (updated_fitness < particle->pbest_fitness) {
-      particle->pbest_fitness = updated_fitness;
-      particle->pbest_position = particle->position;
-    }
-  }
-  
   template <typename P, typename V, typename F>
   inline static Particle make_particle(const Domain& domain, P p, V v, F f,
                                 shared_ptr<Random> rng) {
