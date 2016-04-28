@@ -14,14 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <iostream>
 #include "pso.h"
 
 using std::function;
 using std::shared_ptr;
 using std::copy;
-using std::cout;
-using std::endl;
+
 using cswarm::pso::gbest;
 using cswarm::pso::std_position;
 using cswarm::pso::std_velocity_with_v_max;
@@ -43,12 +41,14 @@ const Result PSO::optimize(const int iterations) {
                                  parameters_.c_2, parameters_.v_max,
                                  particle.pbest_position,
                                  gbest(swarm).pbest_position, rng_);
+                                 
       particle.position = std_position(particle.position, particle.velocity);
     }
     
     for (auto& particle : swarm) {
       auto fitness = fitness_function_(particle.position);
       particle.fitness = fitness;
+      
       if (fitness < particle.pbest_fitness) {
         particle.pbest_fitness = fitness;
         particle.pbest_position = particle.position;

@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include <iostream>
 #include <memory>
 #include "gtest/gtest.h"
 #include "pso_functions.h"
@@ -22,13 +21,13 @@ limitations under the License.
 
 using std::shared_ptr;
 using std::make_shared;
+
 using cswarm::pso::std_position;
 using cswarm::pso::std_velocity;
 using cswarm::pso::initialize_swarm;
 using cswarm::pso::max_fitness;
 using cswarm::pso::stationary_velocity;
 using cswarm::pso::uniform_position;
-using cswarm::pso::update_fitness;
 
 TEST(PSOFunctionsTest, std_position) {
   Random rng(1L);
@@ -66,23 +65,4 @@ TEST(PSOFunctionsTest, should_initialize_swarm) {
                                 stationary_velocity, max_fitness, rng);
   
   EXPECT_EQ(swarm_size, swarm.size());  
-}
-
-TEST(PSOFunctionsTest, should_update_bests) {
-  auto size = 10;
-  auto rng = make_shared<Random>(1L);
-  auto pos = rng->random_vector(size, -1.0, 1.0);
-  auto n_pos = rng->random_vector(size, -1.0, 1.0);
-  auto vel = rng->random_vector(size, -0.1, 0.1);
-  
-  auto swarm = vector<Particle>();
-  swarm.push_back(Particle(pos, vel, 1.0));
-  
-  swarm[0].position = n_pos;
-  
-  update_fitness(&swarm[0], 0.0);
-  
-  ASSERT_TRUE(n_pos.isApprox(swarm[0].pbest_position));
-  EXPECT_EQ(0.0, swarm[0].fitness);
-  EXPECT_EQ(0.0, swarm[0].pbest_fitness);
 }
