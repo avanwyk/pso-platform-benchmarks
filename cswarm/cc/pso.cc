@@ -21,6 +21,7 @@ using std::function;
 using std::shared_ptr;
 
 using cswarm::pso::gbest;
+using cswarm::pso::lbest;
 using cswarm::pso::initialize_swarm;
 using cswarm::pso::max_fitness;
 using cswarm::pso::stationary_velocity;

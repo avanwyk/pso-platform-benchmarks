@@ -15,19 +15,65 @@ limitations under the License.
 */
 
 #include <memory>
+#include <tuple>
+
 #include "gtest/gtest.h"
+
 #include "pso_functions.h"
 #include "random.h"
 
+using std::get;
 using std::shared_ptr;
 using std::make_shared;
 
-using cswarm::pso::std_position;
-using cswarm::pso::std_velocity;
+using cswarm::pso::get_local_bounds;
 using cswarm::pso::initialize_swarm;
 using cswarm::pso::max_fitness;
 using cswarm::pso::stationary_velocity;
+using cswarm::pso::std_position;
+using cswarm::pso::std_velocity;
 using cswarm::pso::uniform_position;
+using cswarm::pso::wrap_idx;
+
+TEST(PSOFunctionsTest, get_local_bounds_span_odd_n_size) {
+  auto bounds = get_local_bounds<5>(2);
+  EXPECT_EQ(0, get<0>(bounds));
+  EXPECT_EQ(5, get<1>(bounds));
+}
+  
+TEST(PSOFunctionsTest, get_local_bounds_span_even_n_size) {
+  auto bounds = get_local_bounds<4>(2);
+  EXPECT_EQ(0, get<0>(bounds));
+  EXPECT_EQ(4, get<1>(bounds));
+}
+
+TEST(PSOFunctionsTest, get_local_bounds_span_singular_n_size) { 
+  auto bounds = get_local_bounds<1>(2);
+  EXPECT_EQ(2, get<0>(bounds));
+  EXPECT_EQ(3, get<1>(bounds));
+}
+
+TEST(PSOFunctionsTest, get_local_bounds_allows_negative_lower) {
+  auto bounds = get_local_bounds<5>(0);
+  EXPECT_EQ(-2, get<0>(bounds));
+  EXPECT_EQ(3, get<1>(bounds));
+}
+
+TEST(PSOFunctionsTest, wrap_idx_should_wrap_lower) {
+  EXPECT_EQ(9, wrap_idx(10, -1));
+  EXPECT_EQ(8, wrap_idx(10, -2));
+}
+
+TEST(PSOFunctionsTest, wrap_idx_should_wrap_upper) {
+  EXPECT_EQ(0, wrap_idx(10, 10));
+  EXPECT_EQ(1, wrap_idx(10, 11));
+}
+
+TEST(PSOFunctionsTest, wrap_idx_should_index) {
+  EXPECT_EQ(0, wrap_idx(10, 0));
+  EXPECT_EQ(9, wrap_idx(10, 9));
+  EXPECT_EQ(5, wrap_idx(10, 5));
+}
 
 TEST(PSOFunctionsTest, std_position) {
   Random rng(1L);

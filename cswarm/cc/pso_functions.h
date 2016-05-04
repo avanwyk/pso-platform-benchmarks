@@ -19,6 +19,7 @@ limitations under the License.
 
 #include <cmath>
 #include <memory>
+#include <tuple>
 
 #include <Eigen/Core>
 
@@ -28,9 +29,12 @@ limitations under the License.
 #include "random.h"
 
 using Eigen::ArrayXd;
+using std::make_tuple;
+using std::get;
 using std::shared_ptr;
-using std::unique_ptr;
+using std::tuple;
 using std::vector;
+using std::unique_ptr;
 
 namespace cswarm {
 namespace pso {
@@ -103,6 +107,30 @@ namespace pso {
     return swarm;
   }
   
+  inline static const int wrap_idx(const int swarm_size, const int idx) {
+    if (idx < 0) { 
+      return idx + swarm_size;
+    } else if (idx >= swarm_size) {
+      return idx - swarm_size;
+    }
+    return idx;
+  }
+    
+  inline static const Particle& nbest(const vector<Particle>& swarm,
+                                      int lower, int upper) {
+    auto swarm_size = swarm.size();
+    auto nbest_fitness = swarm[wrap_idx(swarm_size, lower)].pbest_fitness;
+    auto nbest = lower; 
+    for (int i = lower + 1; i < upper; ++i) {
+      auto particle = swarm[wrap_idx(swarm_size, i)];
+      if (particle.pbest_fitness < nbest_fitness) {
+        nbest = i;
+        nbest_fitness = particle.pbest_fitness;
+      }
+    }
+    return swarm[wrap_idx(swarm_size, nbest)];
+  }
+  
   inline static const Particle& gbest(const vector<Particle>& swarm,
                                       const int particle_idx) {
     auto gbest = 0;
@@ -118,33 +146,19 @@ namespace pso {
     return gbest(swarm, 0);
   }
   
-  inline static const Particle& particle_n(const vector<Particle>& swarm,
-                                           const int n) {
-    int swarm_size = swarm.size();
-    if (n < 0) { 
-      return swarm[n + swarm_size];
-    } else if (n >= swarm_size) {
-      return swarm[n - swarm_size];
-    }
-    return swarm[n];
+  template<int n_size>
+  inline static const tuple<int, int> get_local_bounds(const int idx) {
+    auto div = n_size / 2;
+    auto lower = idx - div;
+    auto upper = idx + (n_size - div);
+    return make_tuple(lower, upper);
   }
   
   template<int n_size>
   inline static const Particle& lbest(const vector<Particle>& swarm,
                                       const int particle_idx) {
-    auto div = n_size / 2 + 1;
-    auto lower = particle_idx - div;
-    auto upper = particle_idx + (n_size - div);
-    
-    auto lbest = lower;
-    for (int i = lower + 1; i < upper; ++i) {
-      auto particle = particle_n(swarm, i);
-      auto lbest_particle = particle_n(swarm, lbest);
-      if (particle.pbest_fitness < lbest_particle.pbest_fitness) {
-        lbest = i;
-      }
-    }
-    return particle_n(swarm, lbest);
+    auto bounds = get_local_bounds<n_size>(particle_idx);
+    return nbest(swarm, get<0>(bounds), get<1>(bounds));
   }
   
 };  // namespace pso
