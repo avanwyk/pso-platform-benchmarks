@@ -146,18 +146,18 @@ namespace pso {
     return gbest(swarm, 0);
   }
   
-  template<int n_size>
-  inline static const tuple<int, int> get_local_bounds(const int idx) {
+  inline static const tuple<int, int> get_local_bounds(const int n_size,
+                                                       const int idx) {
     auto div = n_size / 2;
     auto lower = idx - div;
     auto upper = idx + (n_size - div);
     return make_tuple(lower, upper);
   }
   
-  template<int n_size>
   inline static const Particle& lbest(const vector<Particle>& swarm,
+                                      const int n_size,
                                       const int particle_idx) {
-    auto bounds = get_local_bounds<n_size>(particle_idx);
+    auto bounds = get_local_bounds(n_size, particle_idx);
     return nbest(swarm, get<0>(bounds), get<1>(bounds));
   }
   

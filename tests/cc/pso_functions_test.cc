@@ -36,25 +36,25 @@ using cswarm::pso::uniform_position;
 using cswarm::pso::wrap_idx;
 
 TEST(PSOFunctionsTest, get_local_bounds_span_odd_n_size) {
-  auto bounds = get_local_bounds<5>(2);
+  auto bounds = get_local_bounds(5, 2);
   EXPECT_EQ(0, get<0>(bounds));
   EXPECT_EQ(5, get<1>(bounds));
 }
   
 TEST(PSOFunctionsTest, get_local_bounds_span_even_n_size) {
-  auto bounds = get_local_bounds<4>(2);
+  auto bounds = get_local_bounds(4, 2);
   EXPECT_EQ(0, get<0>(bounds));
   EXPECT_EQ(4, get<1>(bounds));
 }
 
 TEST(PSOFunctionsTest, get_local_bounds_span_singular_n_size) { 
-  auto bounds = get_local_bounds<1>(2);
+  auto bounds = get_local_bounds(1, 2);
   EXPECT_EQ(2, get<0>(bounds));
   EXPECT_EQ(3, get<1>(bounds));
 }
 
 TEST(PSOFunctionsTest, get_local_bounds_allows_negative_lower) {
-  auto bounds = get_local_bounds<5>(0);
+  auto bounds = get_local_bounds(5, 0);
   EXPECT_EQ(-2, get<0>(bounds));
   EXPECT_EQ(3, get<1>(bounds));
 }
