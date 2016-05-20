@@ -18,6 +18,7 @@ The project is built using [Bazel](http://bazel.io/).
 
     ```shell
     bazel run examples/gbest -c opt
+    bazel run examples/lbest -c opt
     ```
 
 ### License
