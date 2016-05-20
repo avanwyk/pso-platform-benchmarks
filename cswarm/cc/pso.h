@@ -30,13 +30,21 @@ limitations under the License.
 #include "result.h"
 
 class PSO {
+  typedef std::function<const Particle&(const vector<Particle>&,
+                                        const PSOParameters&, const int)>
+                                        NeighbourhoodFunction;
+                                        
+  typedef std::function<double(const Eigen::ArrayXd)> FitnessFunction;
+                                        
  public:
   PSO(int swarm_size, const Domain& domain, const PSOParameters& parameters,
-      std::function<double(Eigen::ArrayXd)> fitness_function,
+      FitnessFunction fitness_function,
+      NeighbourhoodFunction neighbourhood_function,
       shared_ptr<Random> rng)
       : swarm_size_(swarm_size),
         domain_(domain), parameters_(parameters),
-        fitness_function_(fitness_function), rng_(rng) {}
+        fitness_function_(fitness_function),
+        neighbourhood_function_(neighbourhood_function), rng_(rng) {}
          
   ~PSO() {}
   
@@ -48,7 +56,8 @@ class PSO {
   const int swarm_size_;
   const Domain& domain_;
   const PSOParameters& parameters_;
-  const std::function<double(Eigen::ArrayXd)> fitness_function_;
+  const FitnessFunction fitness_function_;
+  const NeighbourhoodFunction neighbourhood_function_;
   const std::shared_ptr<Random> rng_;
   std::vector<Particle> swarm_;
 };

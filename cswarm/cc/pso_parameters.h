@@ -19,12 +19,14 @@ limitations under the License.
 
 struct PSOParameters {
   PSOParameters(const double w, const double c_1, const double c_2,
-                const double v_max): w(w), c_1(c_1), c_2(c_2), v_max(v_max) {}
+                const double v_max, const int ns): w(w), c_1(c_1), c_2(c_2),
+                v_max(v_max), ns(ns) {}
   
   const double w;
   const double c_1;
   const double c_2;
   const double v_max;
+  const int ns;
 };
 
 #endif  // CSWARM_CC_PSO_PARAMETERS_H_

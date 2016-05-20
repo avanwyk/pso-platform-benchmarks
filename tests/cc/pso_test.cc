@@ -16,15 +16,19 @@ limitations under the License.
 
 #include <Eigen/Core>
 #include <iostream>
+
 #include "domain.h"
 #include "gtest/gtest.h"
 #include "particle.h"
 #include "pso.h"
+#include "pso_functions.h"
 #include "random.h"
 
 using Eigen::ArrayXd;
 using std::cout;
 using std::endl;
+using cswarm::pso::gbest;
+using cswarm::pso::lbest;
 
 double spherical(const ArrayXd& position) {
   return (position * position).sum();
@@ -33,15 +37,15 @@ double spherical(const ArrayXd& position) {
 TEST(PSOTest, should_construct) {
   auto rng = std::make_shared<Random>(1L);
   auto d = Domain(-5.0, 5.0, 30);
-  auto p = PSOParameters(0.72, 1.4, 1.4, 1.0);
-  auto pso = PSO(5, d, p, spherical, rng);
+  auto p = PSOParameters(0.72, 1.4, 1.4, 1.0, 5);
+  auto pso = PSO(5, d, p, spherical, lbest, rng);
 }
 
 TEST(PSOTest, should_optimize) {
   auto rng = std::make_shared<Random>(1L);
   auto d = Domain(-5.0, 5.0, 10);
-  auto p = PSOParameters(0.72, 1.4, 1.4, 1.0);
-  auto pso = PSO(25, d, p, spherical, rng);
+  auto p = PSOParameters(0.72, 1.4, 1.4, 1.0, 5);
+  auto pso = PSO(25, d, p, spherical, gbest, rng);
   
   auto result = pso.optimize(10);
 }

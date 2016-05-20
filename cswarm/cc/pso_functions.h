@@ -18,6 +18,7 @@ limitations under the License.
 #define CSWARM_CC_PSO_FUNCTIONS_H_
 
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <tuple>
 
@@ -29,8 +30,9 @@ limitations under the License.
 #include "random.h"
 
 using Eigen::ArrayXd;
-using std::make_tuple;
+using std::function;
 using std::get;
+using std::make_tuple;
 using std::shared_ptr;
 using std::tuple;
 using std::vector;
@@ -131,8 +133,15 @@ namespace pso {
     return swarm[wrap_idx(swarm_size, nbest)];
   }
   
-  inline static const Particle& gbest(const vector<Particle>& swarm,
-                                      const int particle_idx) {
+  inline static const tuple<int, int> get_local_bounds(const int n_size,
+                                                       const int idx) {
+    auto div = n_size / 2;
+    auto lower = idx - div;
+    auto upper = idx + (n_size - div);
+    return make_tuple(lower, upper);
+  }
+  
+  inline static const Particle& global_best(const vector<Particle>& swarm) {
     auto gbest = 0;
     for (uint i = 1; i < swarm.size(); ++i) {
       if (swarm[i].pbest_fitness < swarm[gbest].pbest_fitness) {
@@ -142,22 +151,16 @@ namespace pso {
     return swarm[gbest];
   }
   
-  inline static const Particle& gbest(const vector<Particle>& swarm) {
-    return gbest(swarm, 0);
-  }
-  
-  inline static const tuple<int, int> get_local_bounds(const int n_size,
-                                                       const int idx) {
-    auto div = n_size / 2;
-    auto lower = idx - div;
-    auto upper = idx + (n_size - div);
-    return make_tuple(lower, upper);
-  }
+  inline static const Particle& gbest(const vector<Particle>& swarm,
+                                      const PSOParameters& params,
+                                      const int particle_idx) {
+    return global_best(swarm);
+  }  
   
   inline static const Particle& lbest(const vector<Particle>& swarm,
-                                      const int n_size,
+                                      const PSOParameters& params,
                                       const int particle_idx) {
-    auto bounds = get_local_bounds(n_size, particle_idx);
+    auto bounds = get_local_bounds(params.ns, particle_idx);
     return nbest(swarm, get<0>(bounds), get<1>(bounds));
   }
   

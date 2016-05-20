@@ -21,9 +21,11 @@ limitations under the License.
 #include "domain.h"
 #include "particle.h"
 #include "pso.h"
+#include "pso_functions.h"
 #include "random.h"
 
 using Eigen::ArrayXd;
+using cswarm::pso::gbest;
 using std::cout;
 using std::endl;
 
@@ -44,8 +46,8 @@ int main(int argc, char* argv[]) {
   int dimensions = get_dimension(argc, argv);
   int swarm_size = get_swarm_size(argc, argv);
   auto d = Domain(-5.0, 5.0, dimensions);
-  auto p = PSOParameters(0.729844, 1.496180, 1.496180, 0.1);
-  auto pso = PSO(swarm_size, d, p, spherical_f, rng);
+  auto p = PSOParameters(0.729844, 1.496180, 1.496180, 0.1, 5);
+  auto pso = PSO(swarm_size, d, p, spherical_f, gbest, rng);
   
   auto result = pso.optimize(1000);
   cout << result.getFitness() << endl;

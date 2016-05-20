@@ -21,6 +21,7 @@ using std::function;
 using std::shared_ptr;
 
 using cswarm::pso::gbest;
+using cswarm::pso::global_best;
 using cswarm::pso::lbest;
 using cswarm::pso::initialize_swarm;
 using cswarm::pso::max_fitness;
@@ -37,7 +38,7 @@ const Result PSO::optimize(const int iterations) {
   for (int iteration = 0; iteration < iterations; ++iteration) {
     for (int i = 0; i < swarm_size_; ++i) {
       Particle& particle = swarm[i];
-      auto nbest = gbest(swarm, i);
+      auto nbest = neighbourhood_function_(swarm, parameters_, i);
       particle.velocity = std_velocity_with_v_max(particle,
                                  parameters_.w, parameters_.c_1,
                                  parameters_.c_2, parameters_.v_max,
@@ -59,5 +60,5 @@ const Result PSO::optimize(const int iterations) {
     }
   }
   
-  return Result(gbest(swarm)); 
+  return Result(global_best(swarm)); 
 }
