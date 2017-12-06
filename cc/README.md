@@ -1,5 +1,5 @@
 # C/C++ PSO
-C++ based implementation of the Particle Swarm Optimization algorithm. The code is functional in style and uses the [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) linear algebra library.
+C++ based implementation of the Particle Swarm Optimization algorithm. The code uses the [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) linear algebra library.
 
 ## Implementation
 The algorithm implemented is the synchronous modified gbest PSO with the inertia term as per:
